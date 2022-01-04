@@ -1,12 +1,6 @@
 import chess
+from Game import Game
 
 board = chess.Board()
-print(board)
-print(chess.A1)
-
-print(board.piece_at(chess.A1))
-
-
-
-
-
+game = Game(board)
+game.start()
