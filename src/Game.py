@@ -1,5 +1,6 @@
 import chess
-from typing import List, Tuple
+import chess.engine
+from typing import List
 from Player import Player
 
 
@@ -8,28 +9,33 @@ class Game:
     Classe du jeu. Gère les pions, les joueurs et l'issue de la partie.
     """
 
-    def __init__(self, board):
+    def __init__(self, board: chess.Board, player1: Player, player2: Player):
         # Liste des pièces au cimetière
         self.graveyard: List[chess.Piece] = []
         self.board: chess.Board = board
         self.isTurnBlack = False
+        self.player1 = player1
+        self.player2 = player2
+        self.engine = chess.engine.SimpleEngine.popen_uci(r"/home/andrewmhdb/Downloads/stockfish_14.1_linux_x64_avx2/stockfish_14.1_linux_x64_avx2")
 
     def start(self):
-        player1 = Player("Andrew", False, False)
-        player2 = Player("Calvin", True, False)
-
         while not self.board.is_checkmate():
 
+            #
             print(self.board)
 
             if self.isTurnBlack:
-                move = player1.get_move(self.get_legal_move(player1.color), self.board)
+                move = self.player1.get_move(self.get_legal_move(self.player1.color), self.board)
                 self.move_piece(move)
                 self.isTurnBlack = False
             else:
-                move = player2.get_move(self.get_legal_move(player2.color), self.board)
+                move = self.player2.get_move(self.get_legal_move(self.player2.color), self.board)
                 self.move_piece(move)
                 self.isTurnBlack = True
+
+            print(self.eval_position())
+
+        self.engine.quit()
 
     def get_legal_move(self, color: bool) -> List[chess.Move]:
         """
@@ -55,11 +61,13 @@ class Game:
         """
         self.board.pop()
 
-    def eval_position(self) -> Tuple[int, int]:
+    def eval_position(self) -> int:
         """
         Fonction qui évalue la position des deux joueurs.
         Renvoie deux int allant de 0 à 100 indiquant respectivement si le joueur est dans une mauvaise ou une bonne
         position.
-        :return: int, int
+        :return: int
         """
-        pass
+        info = self.engine.analyse(self.board, chess.engine.Limit(depth=20))
+        return info["score"]
+
