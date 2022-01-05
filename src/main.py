@@ -1,6 +1,7 @@
 import chess
 from Game import Game
+from Menu import Menu
 
-board = chess.Board()
-game = Game(board)
-game.start()
+menu = Menu()
+menu.start_human_vs_human()
+
