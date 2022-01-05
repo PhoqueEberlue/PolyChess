@@ -1,5 +1,5 @@
 import chess
-from typing import List
+from typing import List, Tuple
 from Player import Player
 
 
@@ -24,10 +24,10 @@ class Game:
 
             if self.isTurnBlack:
                 move = player1.get_move(self.get_legal_move(player1.color), self.board)
-                self.board.push_uci(move)
+                self.move_piece(move)
             else:
                 move = player2.get_move(self.get_legal_move(player2.color), self.board)
-                self.board.push_uci(move)
+                self.move_piece(move)
 
     def get_legal_move(self, color: bool) -> List[chess.Move]:
         """
@@ -41,4 +41,23 @@ class Game:
                 res.append(move)
         return res
 
+    def move_piece(self, move: str):
+        """
+        Effectue un coup et l'ajoute à la pile des coups
+        """
+        self.board.push_uci(move)
 
+    def revert_last_move(self):
+        """
+        Annule le dernier coup et reviens à la position précédente
+        """
+        self.board.pop()
+
+    def eval_position(self) -> Tuple[int, int]:
+        """
+        Fonction qui évalue la position des deux joueurs.
+        Renvoie deux int allant de 0 à 100 indiquant respectivement si le joueur est dans une mauvaise ou une bonne
+        position.
+        :return: int, int
+        """
+        pass
