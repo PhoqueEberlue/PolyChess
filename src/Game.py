@@ -24,14 +24,14 @@ class Game:
             #
             print(self.board)
 
-            if self.isTurnBlack:
+            if not self.isTurnBlack:
                 move = self.player1.get_move(self.get_legal_move(self.player1.color), self.board)
                 self.move_piece(move)
-                self.isTurnBlack = False
+                self.isTurnBlack = True
             else:
                 move = self.player2.get_move(self.get_legal_move(self.player2.color), self.board)
                 self.move_piece(move)
-                self.isTurnBlack = True
+                self.isTurnBlack = False
 
             print(self.eval_position())
 
@@ -64,10 +64,14 @@ class Game:
     def eval_position(self) -> int:
         """
         Fonction qui évalue la position des deux joueurs.
-        Renvoie deux int allant de 0 à 100 indiquant respectivement si le joueur est dans une mauvaise ou une bonne
+        Renvoie un int allant de -100 à 100 indiquant respectivement si le joueur est dans une mauvaise ou une bonne
         position.
         :return: int
         """
         info = self.engine.analyse(self.board, chess.engine.Limit(depth=20))
         return info["score"]
+
+
+
+
 

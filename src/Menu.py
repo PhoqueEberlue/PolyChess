@@ -16,8 +16,8 @@ class Menu:
         Lance une partie en humain contre humain
         :return:
         """
-        player1 = Player("Andrew", False, False)
-        player2 = Player("Calvin", True, False)
+        player1 = Player("Andrew", True, False)
+        player2 = Player("Calvin", False, False)
         board = chess.Board()
         game = Game(board, player1, player2)
         game.start()
