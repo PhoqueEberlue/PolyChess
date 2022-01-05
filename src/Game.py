@@ -23,10 +23,10 @@ class Game:
             print(self.board)
 
             if self.isTurnBlack:
-                move = player1.get_move(self.get_legal_move(player1.color))
+                move = player1.get_move(self.get_legal_move(player1.color), self.board)
                 self.board.push_uci(move)
             else:
-                move = player2.get_move(self.get_legal_move(player2.color))
+                move = player2.get_move(self.get_legal_move(player2.color), self.board)
                 self.board.push_uci(move)
 
     def get_legal_move(self, color: bool) -> List[chess.Move]:
