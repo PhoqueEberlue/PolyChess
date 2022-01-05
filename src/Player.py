@@ -7,11 +7,13 @@ class Player:
     """
     Gère les joueurs
     """
+
     def __init__(self, nom, color, is_pc):
         self.nom = nom
         self.color: bool = color  # False = Noir, True = Blanc
         self.is_pc: bool = is_pc
         self.graveyard: List[str] = []  # Exemple : ['r', 'p', 'p', 'k']
+        self.score = 0
 
         if self.is_pc:
             self.move_generator = MovesGenerator()
@@ -56,20 +58,20 @@ class Player:
         Retourne le nombre de victoire
         :return: int
         """
-        pass
+        return self.score
 
     def incr_win(self) -> None:
         """
         Incrémente le nombre de victoire du joueur
         """
-        pass
+        self.score += 1
 
     def add_to_graveyard(self, piece) -> None:
         """
         Ajoute une pièce au cimetière.
         :param piece:
         """
-        pass
+        self.graveyard.append(piece)
 
     def remove_from_graveyard(self, piece) -> None:
         """
@@ -77,7 +79,8 @@ class Player:
         :param piece:
         :return:
         """
-        pass
+        if self.is_in_graveyard(piece):
+            self.graveyard.remove(piece)
 
     def is_in_graveyard(self, piece) -> bool:
         """
@@ -85,3 +88,7 @@ class Player:
         :param piece:
         :return: un booléen
         """
+        for x in self.graveyard:
+            if x == piece:
+                return True
+        return False
