@@ -1,21 +1,24 @@
 import chess
 from typing import List
+from MovesGenerator import MovesGenerator
 
 
 class Player:
     """
     Gère les joueurs
     """
-
     def __init__(self, nom, color, is_pc):
         self.nom = nom
         self.color: bool = color  # False = Noir, True = Blanc
         self.is_pc: bool = is_pc
-        self.graveyard = []
+        self.graveyard: List[str] = []  # Exemple : ['r', 'p', 'p', 'k']
+
+        if self.is_pc:
+            self.move_generator = MovesGenerator()
 
     def get_move(self, legal_moves, board) -> str:
         """
-
+        Renvoie le déplacement d'un joueur ordinateur ou humain
         :return: coordonnées sous forme 'a1b2'
         """
         if self.is_pc:
@@ -25,7 +28,7 @@ class Player:
 
     def get_move_from_player(self, legal_moves) -> str:
         """
-        Renvoie un déplacement choisi par un joueur humain
+        Renvoie le déplacement choisi par un joueur humain
         :param legal_moves: la liste des coups possibles pour ce joueur
         :return: les coordonnées de déplacement sous forme 'a1b2'
         """
@@ -41,9 +44,44 @@ class Player:
 
     def get_move_from_pc(self, legal_moves, board: chess.Board) -> str:
         """
-        Renvoie un déplacement choisi par l'ordinateur
+        Renvoie le déplacement choisi par l'ordinateur
         :param legal_moves: la liste des coups possibles pour ce joueur
         :param board: l'instance du plateau
         :return: les coordonnées de déplacement sous forme 'a1b2'
         """
         pass
+
+    def get_win_number(self) -> int:
+        """
+        Retourne le nombre de victoire
+        :return: int
+        """
+        pass
+
+    def incr_win(self) -> None:
+        """
+        Incrémente le nombre de victoire du joueur
+        """
+        pass
+
+    def add_to_graveyard(self, piece) -> None:
+        """
+        Ajoute une pièce au cimetière.
+        :param piece:
+        """
+        pass
+
+    def remove_from_graveyard(self, piece) -> None:
+        """
+        Retire une piece du cimetière
+        :param piece:
+        :return:
+        """
+        pass
+
+    def is_in_graveyard(self, piece) -> bool:
+        """
+        Vérifie si une pièce est dans le cimetière
+        :param piece:
+        :return: un booléen
+        """
