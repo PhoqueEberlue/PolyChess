@@ -18,6 +18,9 @@ class Player:
         if self.is_pc:
             self.move_generator = MovesGenerator()
 
+    def get_name(self):
+        return self.nom
+
     def get_move(self, legal_moves, board) -> str:
         """
         Renvoie le déplacement d'un joueur ordinateur ou humain
