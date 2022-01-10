@@ -27,7 +27,7 @@ class Player:
         :return: coordonnées sous forme 'a1b2'
         """
         if self.is_pc:
-            return self.get_move_from_pc(legal_moves, board)
+            return self.get_move_from_pc(board)
         else:
             return self.get_move_from_player(legal_moves)
 
@@ -47,14 +47,13 @@ class Player:
 
         return pos_init + pos_fin
 
-    def get_move_from_pc(self, legal_moves, board: chess.Board) -> str:
+    def get_move_from_pc(self, board: chess.Board) -> str:
         """
         Renvoie le déplacement choisi par l'ordinateur
-        :param legal_moves: la liste des coups possibles pour ce joueur
         :param board: l'instance du plateau
         :return: les coordonnées de déplacement sous forme 'a1b2'
         """
-        pass
+        return self.move_generator.get_move()
 
     def get_win_number(self) -> int:
         """
