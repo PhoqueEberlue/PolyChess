@@ -37,6 +37,18 @@ class Menu:
         if(x == "player"):
             self.menu_player()
 
+    def isNotPlayer(self, choice):
+        for player in self.players:
+            if player.get_name() == choice:
+                return False
+        return True
+
+    def get_index_player(self, choice):
+        for k in range(len(self.players)):
+            if self.players[k].get_name() == choice:
+                return k
+        return -1
+
     def menu_play(self):
         table_data = [
             ['Quel mode de jeu voulez-vous lancer?'],
@@ -49,18 +61,33 @@ class Menu:
 
         if(x == "0"):
             if(len(self.players) >= 2):
-                self.start_human_vs_human(self.players[0], self.players[1])
+                self.display_player_list()
+                choiceWhite = ""
+                choiceBlack = ""
+                while self.isNotPlayer(choiceWhite):
+                    print("Veuillez choisir le joueur des blancs :")
+                    choiceWhite = input("")
+
+                while self.isNotPlayer(choiceBlack) or (choiceWhite == choiceBlack):
+                    print("Veuillez choisir le joueur des what's up :")
+                    choiceBlack = input("")
+                
+                self.start_human_vs_human(self.players[self.get_index_player(choiceWhite)], self.players[self.get_index_player(choiceBlack)])
             else:
                 print("Il n'y pas assez de joueur !")
 
-    def menu_player(self):
+    def display_player_list(self):
         table_data = [
             ['Joueurs']]
-        for k in self.players:
-            name = k.get_name()
-            table_data.append([name])
+        for k in range(len(self.players)):
+            name = self.players[k].get_name()
+            table_data.append([ str(k) + " : " + name])
         table = AsciiTable(table_data)
         print(table.table)
+
+    def menu_player(self):
+
+        self.display_player_list()
         
         table_data2 = [
             ['Que voulez-vous faire ?'],
