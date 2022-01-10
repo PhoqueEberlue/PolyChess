@@ -69,7 +69,7 @@ class Menu:
                     choiceWhite = input("")
 
                 while self.isNotPlayer(choiceBlack) or (choiceWhite == choiceBlack):
-                    print("Veuillez choisir le joueur des what's up :")
+                    print("Veuillez choisir le joueur des noirs :")
                     choiceBlack = input("")
                 
                 self.start_human_vs_human(self.players[self.get_index_player(choiceWhite)], self.players[self.get_index_player(choiceBlack)])
