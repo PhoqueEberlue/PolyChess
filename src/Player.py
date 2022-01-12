@@ -37,7 +37,13 @@ class Player:
         :param legal_moves: la liste des coups possibles pour ce joueur
         :return: les coordonnées de déplacement sous forme 'a1b2'
         """
-        print(f"C'est le tour {self.nom} ({self.color})")
+        col = ""
+        if self.color :
+            col = "White"
+        else :
+            col = "Black"
+
+        print(f"C'est le tour {self.nom} ({col})")
         pos_init = input("Entrez la coordonnée de la pièce à déplacer : ")
         pos_fin = input("Entrez la coordonnée de destination : ")
         while chess.Move.from_uci(pos_init + pos_fin) not in legal_moves:
@@ -53,7 +59,7 @@ class Player:
         :param board: l'instance du plateau
         :return: les coordonnées de déplacement sous forme 'a1b2'
         """
-        return self.move_generator.get_move()
+        return self.move_generator.get_move(board)
 
     def get_win_number(self) -> int:
         """
@@ -94,3 +100,6 @@ class Player:
             if x == piece:
                 return True
         return False
+
+    def set_color(self, color) -> None:
+        self.color = color
