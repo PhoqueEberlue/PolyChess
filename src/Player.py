@@ -1,7 +1,7 @@
 import chess
 from typing import List
 from MovesGenerator import MovesGenerator
-
+from datetime import datetime
 
 class Player:
     """
@@ -14,6 +14,9 @@ class Player:
         self.is_pc: bool = is_pc
         self.graveyard: List[str] = []  # Exemple : ['r', 'p', 'p', 'k']
         self.score = 0
+        self.debut = None
+        self.temps = None
+        self.temps_tot = 300
 
         if self.is_pc:
             self.move_generator = MovesGenerator(1)
@@ -103,3 +106,16 @@ class Player:
 
     def set_color(self, color) -> None:
         self.color = color
+
+    def time(self):
+        pass
+
+
+
+
+
+
+
+
+
+

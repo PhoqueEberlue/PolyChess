@@ -1,5 +1,6 @@
 import chess
 import chess.engine
+from datetime import datetime, date, time,timezone
 
 
 """
@@ -18,4 +19,13 @@ while not board.is_game_over():
 engine.quit()
 """
 
-print(chess.KING)
+timer = datetime.now()
+print(timer)
+timer2 = time(16, 43)
+print(timer2)
+print(timer) #JE DEVIENS FOU
+timer3 = datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M")
+print(timer3)
+
+timer4 = timer.minute
+print(timer4)
