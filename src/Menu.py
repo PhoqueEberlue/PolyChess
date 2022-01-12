@@ -94,6 +94,7 @@ class Menu:
         if(x == "2"):
             self.start_pc_vs_pc()
 
+<<<<<<< Updated upstream
     def display_player_list(self):
         """
         Méthode permettant de donner la liste des joueurs.
@@ -120,6 +121,9 @@ class Menu:
             ]
         table2 = AsciiTable(table_data2)
         print(table2.table)
+=======
+        self.start()
+>>>>>>> Stashed changes
 
     def start_human_vs_human(self):
         """
@@ -149,7 +153,7 @@ class Menu:
 
     def start_pc_vs_pc(self):
         """
-        Lance une naine (élodie mélodie)
+        Lance une partie IA contre IA
         :return:
         """
         board = chess.Board()
@@ -185,6 +189,35 @@ class Menu:
         game = Game(board, player1, player2)
         game.start()
 
+## Menu player
+
+    def menu_player(self):
+        """
+        Demande au joueur ce qu'il veut faire avec la list des joueurs
+        :return:
+        """
+
+        self.display_player_list()
+        
+        table_data2 = [
+            ['Que voulez-vous faire ?'],
+            ['Créer un nouveau joueur (add Nom | Supprimer un joueur (del Nom)']
+            ]
+        table2 = AsciiTable(table_data2)
+        print(table2.table)
+
+        x = input("/:")
+
+        if(x[0:3] == "add"):
+            if(self.isNotPlayer(x[4:])):
+                self.players.append(Player(x[4:], None, False))
+                print("Le joueur " + x[4:] + " a été ajouté !")
+
+        if(x[0:3] == "del"):
+            pass
+
+        self.start()
+
     def create_player(self):
         """
         Création d'un nouveau joueur en rentrant les informations de ce dernier dans le terminal
@@ -215,9 +248,12 @@ class Menu:
         :return:
         """
 
+## Menu option
+
     def options(self):
         """
         Menu d'options
         :return:
         """
-        pass
+        self.start()
+
