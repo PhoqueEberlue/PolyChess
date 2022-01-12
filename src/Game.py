@@ -4,16 +4,16 @@ from typing import List
 from Player import Player
 from ai_importor import get_ai_file_name
 
-
 class Game:
     """
     Classe du jeu. Gère les pions, les joueurs et l'issue de la partie.
     """
 
-    def __init__(self, board: chess.Board, player1: Player, player2: Player):
+    def __init__(self, board, player1: Player, player2: Player):
         # Liste des pièces au cimetière
         self.graveyard: List[chess.Piece] = []
-        self.board: chess.Board = board
+        self.our_board = Our_Board()
+        self.board = self.our_board.board
         self.isTurnBlack = False
         self.player1 = player1
         self.player2 = player2
