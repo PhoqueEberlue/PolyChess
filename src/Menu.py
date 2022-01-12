@@ -21,6 +21,10 @@ class Menu:
         self.start()
 
     def start(self):
+        """
+        Permet d'afficher le menu dans lequel nous choisissons le mode de jeu.
+        :return: Board
+        """
 
         table_data = [
             ['Que voulez-vous faire ?'],
@@ -38,12 +42,22 @@ class Menu:
             self.menu_player()
 
     def isNotPlayer(self, choice):
+        """
+        Permet de tester que le nom du joueur en paramètre correspond bien à celui d'un joueur de la liste des joueurs.
+        :param choice: bool
+        :return:
+        """
         for player in self.players:
             if player.get_name() == choice:
                 return False
         return True
 
     def get_index_player(self, choice):
+        """
+        Méthode permettant d'afficher le nom du joueur.
+        :param choice: Choix du joueur.
+        :return: Nom joueur.
+        """
         for k in range(len(self.players)):
             if self.players[k].get_name() == choice:
                 return k
@@ -81,6 +95,10 @@ class Menu:
             self.start_pc_vs_pc()
 
     def display_player_list(self):
+        """
+        Méthode permettant de donner la liste des joueurs.
+        :return: liste des joueurs.
+        """
         table_data = [
             ['Joueurs']]
         for k in range(len(self.players)):
@@ -90,7 +108,10 @@ class Menu:
         print(table.table)
 
     def menu_player(self):
-
+        """
+        Méthode permettant de créer un nouveau joueur.
+        :return: Liste joueurs avec le nouveau joueur.
+        """
         self.display_player_list()
         
         table_data2 = [
@@ -116,9 +137,14 @@ class Menu:
         while self.isNotPlayer(choiceBlack) or (choiceWhite == choiceBlack):
             print("Veuillez choisir le joueur des noirs :")
             choiceBlack = input("")
-        
+
+        player1 = self.players[self.get_index_player(choiceWhite)]
+        player2 = self.players[self.get_index_player(choiceBlack)]
+        player1.set_color(True)
+        player2.set_color(False)
+
         board = chess.Board()
-        game = Game(board,  self.players[self.get_index_player(choiceWhite)], self.players[self.get_index_player(choiceBlack)])
+        game = Game(board, player1, player2)
         game.start()
 
     def start_pc_vs_pc(self):

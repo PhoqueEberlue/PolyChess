@@ -2,6 +2,7 @@ import chess
 import chess.engine
 from typing import List
 from Player import Player
+from ai_importor import get_ai_file_name
 
 
 class Game:
@@ -16,13 +17,13 @@ class Game:
         self.isTurnBlack = False
         self.player1 = player1
         self.player2 = player2
-        self.engine = chess.engine.SimpleEngine.popen_uci(r"/home/andrewmhdb/Downloads/stockfish_14.1_linux_x64_avx2/stockfish_14.1_linux_x64_avx2")
+        self.engine = chess.engine.SimpleEngine.popen_uci(f"../ai/{get_ai_file_name()}")
         self.turn_count = 0
 
     def start(self):
         while not self.board.is_checkmate():
 
-            # A remplacer par la fonction d'affichage de la classe CLI
+            # À remplacer par la fonction d'affichage de la classe CLI
             print(self.board)
 
             if not self.isTurnBlack:
@@ -37,6 +38,8 @@ class Game:
             print(self.eval_position())
 
             self.turn_count += 1
+
+        print(self.board)
 
         self.engine.quit()
 
@@ -75,5 +78,11 @@ class Game:
         info = self.engine.analyse(self.board, chess.engine.Limit(depth=20))
         return info["score"]
 
+    def end_table_score(self) -> str:
+        """
+        Renvoie un résumé de fin de partie affichant diverse informations concernant les joueurs.
+        :return: un str qui sera print en fin de partie
+        """
+        pass
 
 
