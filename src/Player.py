@@ -16,7 +16,7 @@ class Player:
         self.score = 0
 
         if self.is_pc:
-            self.move_generator = MovesGenerator()
+            self.move_generator = MovesGenerator(1)
 
     def get_name(self):
         return self.nom

@@ -22,8 +22,7 @@ class Menu:
 
     def start(self):
         """
-        Permet d'afficher le menu dans lequel nous choisissons le mode de jeu.
-        :return: Board
+        Demande au joueur quel menu lancer
         """
 
         table_data = [
@@ -36,16 +35,39 @@ class Menu:
         x = input("/:")
 
         if(x == "play"):
+            print("\n")
             self.menu_play()
 
         if(x == "player"):
+            print("\n")
             self.menu_player()
+
+        if(x == "opt"):
+            print("\n")
+            self.options()
+
+        print("\n")
+
+    def display_player_list(self):
+        """
+        Méthode permettant de donner la liste des joueurs.
+        """
+
+        print("\n")
+
+        table_data = [
+            ['Joueurs']]
+        for k in range(len(self.players)):
+            name = self.players[k].get_name()
+            table_data.append([ str(k) + " : " + name])
+        table = AsciiTable(table_data)
+        print(table.table)
 
     def isNotPlayer(self, choice):
         """
         Permet de tester que le nom du joueur en paramètre correspond bien à celui d'un joueur de la liste des joueurs.
         :param choice: bool
-        :return:
+        :return: bool
         """
         for player in self.players:
             if player.get_name() == choice:
@@ -54,9 +76,9 @@ class Menu:
 
     def get_index_player(self, choice):
         """
-        Méthode permettant d'afficher le nom du joueur.
-        :param choice: Choix du joueur.
-        :return: Nom joueur.
+        Donne l'index dans la liste des joueurs du joueur donné en paramètre
+        :param choice: Nom du joueur
+        :return: Index du joueur
         """
         for k in range(len(self.players)):
             if self.players[k].get_name() == choice:
@@ -67,7 +89,6 @@ class Menu:
 
         """
         Demande au joueur le mode de jeu qu'il veut lancer
-        :return:
         """
 
         table_data = [
@@ -94,32 +115,9 @@ class Menu:
         if(x == "2"):
             self.start_pc_vs_pc()
 
-    def display_player_list(self):
-        """
-        Méthode permettant de donner la liste des joueurs.
-        :return: liste des joueurs.
-        """
-        table_data = [
-            ['Joueurs']]
-        for k in range(len(self.players)):
-            name = self.players[k].get_name()
-            table_data.append([ str(k) + " : " + name])
-        table = AsciiTable(table_data)
-        print(table.table)
+        print("\n")
 
-    def menu_player(self):
-        """
-        Méthode permettant de créer un nouveau joueur.
-        :return: Liste joueurs avec le nouveau joueur.
-        """
-        self.display_player_list()
-        
-        table_data2 = [
-            ['Que voulez-vous faire ?'],
-            ['Créer un nouveau joueur (add Nom | Supprimer un joueur (delete Nom)']
-            ]
-        table2 = AsciiTable(table_data2)
-        print(table2.table)
+        self.start()
 
     def start_human_vs_human(self):
         """
@@ -131,12 +129,14 @@ class Menu:
         choiceWhite = ""
         choiceBlack = ""
         while self.isNotPlayer(choiceWhite):
-            print("Veuillez choisir le joueur des blancs :")
+            print("Veuillez choisir le joueur des blancs (donnez le nom) :")
             choiceWhite = input("")
 
         while self.isNotPlayer(choiceBlack) or (choiceWhite == choiceBlack):
-            print("Veuillez choisir le joueur des noirs :")
+            print("Veuillez choisir le joueur des noirs (donnez le nom) :")
             choiceBlack = input("")
+
+        print("\n")
 
         player1 = self.players[self.get_index_player(choiceWhite)]
         player2 = self.players[self.get_index_player(choiceBlack)]
@@ -149,7 +149,7 @@ class Menu:
 
     def start_pc_vs_pc(self):
         """
-        Lance une naine (élodie mélodie)
+        Lance une partie IA contre IA
         :return:
         """
         board = chess.Board()
@@ -159,7 +159,6 @@ class Menu:
     def start_human_vs_pc(self):
         """
         Demande que jouent le joueur et le pc et lance une partie en humain contre IA
-        :return:
         """
         self.display_player_list()
 
@@ -167,57 +166,66 @@ class Menu:
         choiceBlack = ""
 
         while self.isNotPlayer(choiceWhite) and choiceWhite != "pc":
-            print("Veuillez choisir le joueur des blancs (pc si ce n'est pas le joueur) :")
+            print("Veuillez choisir le joueur des blancs (donnez le nom ou \"pc\" si ce n'est pas le joueur) :")
             choiceWhite = input("")
 
         while (self.isNotPlayer(choiceBlack) or choiceWhite != "pc") and (choiceBlack != "pc" or choiceWhite == choiceBlack):
-            print("Veuillez choisir le joueur des noirs :")
+            print("Veuillez choisir le joueur des noirs (donnez le nom ou \"pc\" si ce n'est pas le joueur) :")
             choiceBlack = input("")
+
+        print("\n")
 
         if(choiceWhite == "pc"):
             player1 = Player("IA", True, True)
             player2 = self.players[self.get_index_player(choiceBlack)]
+            player2.set_color(False)
         else:
             player1 = self.players[self.get_index_player(choiceWhite)]
+            player1.set_color(True)
             player2 = Player("IA", False, True)
 
         board = chess.Board()
         game = Game(board, player1, player2)
         game.start()
 
-    def create_player(self):
-        """
-        Création d'un nouveau joueur en rentrant les informations de ce dernier dans le terminal
-        :return:
-        """
-        table_data = [
-            ['Nouveau joueur !'],
-            ['player add Pseudo Color isPC']
-            ]
-        table = AsciiTable(table_data)
-        print(table.table)
+## Menu player
 
-    def modify_player(self):
+    def menu_player(self):
         """
-        Modifier les informations d'un joueur
+        Demande au joueur ce qu'il veut faire avec la liste des joueurs et l'execute
         :return:
         """
-        table_data = [
-            ['Modifier joueur !'],
-            ['player modify Pseudo']
+        self.display_player_list()
+        
+        table_data2 = [
+            ['Que voulez-vous faire ?'],
+            ['Créer un nouveau joueur (add Nom | Supprimer un joueur (del Nom)']
             ]
-        table = AsciiTable(table_data)
-        print(table.table)
+        table2 = AsciiTable(table_data2)
+        print(table2.table)
 
-    def delete_player(self):
-        """
-        Supprimer un joueur
-        :return:
-        """
+        x = input("/:")
+
+        if(x[0:3] == "add"):
+            if(self.isNotPlayer(x[4:])):
+                self.players.append(Player(x[4:], None, False))
+                print("Le joueur " + x[4:] + " a été ajouté !")
+
+        if(x[0:3] == "del"):
+            if(not self.isNotPlayer(x[4:])):
+                del self.players[self.get_index_player(x[4:])]
+                print("Le joueur " + x[4:] + " a été supprimé !")
+
+        print("\n")
+
+        self.start()
+
+## Menu option
 
     def options(self):
         """
         Menu d'options
         :return:
         """
-        pass
+        self.start()
+
