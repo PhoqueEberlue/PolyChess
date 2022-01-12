@@ -50,6 +50,12 @@ class Menu:
         return -1
 
     def menu_play(self):
+
+        """
+        Demande au joueur le mode de jeu qu'il veut lancer
+        :return:
+        """
+
         table_data = [
             ['Quel mode de jeu voulez-vous lancer?'],
             ['H vs H : 0 | H vs IA : 1 | IA vs IA : 2']
@@ -61,20 +67,18 @@ class Menu:
 
         if(x == "0"):
             if(len(self.players) >= 2):
-                self.display_player_list()
-                choiceWhite = ""
-                choiceBlack = ""
-                while self.isNotPlayer(choiceWhite):
-                    print("Veuillez choisir le joueur des blancs :")
-                    choiceWhite = input("")
-
-                while self.isNotPlayer(choiceBlack) or (choiceWhite == choiceBlack):
-                    print("Veuillez choisir le joueur des noirs :")
-                    choiceBlack = input("")
-                
-                self.start_human_vs_human(self.players[self.get_index_player(choiceWhite)], self.players[self.get_index_player(choiceBlack)])
+                self.start_human_vs_human()
             else:
                 print("Il n'y pas assez de joueur !")
+
+        if(x == "1"):
+            if(len(self.players) > 0):
+                self.start_human_vs_pc() 
+            else:
+                print("Il n'y pas assez de joueur !")
+
+        if(x == "2"):
+            self.start_pc_vs_pc()
 
     def display_player_list(self):
         table_data = [
@@ -96,24 +100,64 @@ class Menu:
         table2 = AsciiTable(table_data2)
         print(table2.table)
 
-    def start_human_vs_human(self, player1, player2):
+    def start_human_vs_human(self):
         """
-        Lance une partie en humain contre humain
+        Demande les jouers et lance une partie en humain contre humain
         :return:
         """
+        self.display_player_list()
+
+        choiceWhite = ""
+        choiceBlack = ""
+        while self.isNotPlayer(choiceWhite):
+            print("Veuillez choisir le joueur des blancs :")
+            choiceWhite = input("")
+
+        while self.isNotPlayer(choiceBlack) or (choiceWhite == choiceBlack):
+            print("Veuillez choisir le joueur des noirs :")
+            choiceBlack = input("")
+        
         board = chess.Board()
-        game = Game(board, player1, player2)
+        game = Game(board,  self.players[self.get_index_player(choiceWhite)], self.players[self.get_index_player(choiceBlack)])
         game.start()
 
     def start_pc_vs_pc(self):
         """
-        Lance une
+        Lance une naine (élodie mélodie)
         :return:
         """
-        pass
+        board = chess.Board()
+        game = Game(board,  Player("PC MASTER RACE 1", True, True), Player("PC MASTER RACE 2", False, True))
+        game.start()
 
     def start_human_vs_pc(self):
-        pass
+        """
+        Demande que jouent le joueur et le pc et lance une partie en humain contre IA
+        :return:
+        """
+        self.display_player_list()
+
+        choiceWhite = ""
+        choiceBlack = ""
+
+        while self.isNotPlayer(choiceWhite) and choiceWhite != "pc":
+            print("Veuillez choisir le joueur des blancs (pc si ce n'est pas le joueur) :")
+            choiceWhite = input("")
+
+        while (self.isNotPlayer(choiceBlack) or choiceWhite != "pc") and (choiceBlack != "pc" or choiceWhite == choiceBlack):
+            print("Veuillez choisir le joueur des noirs :")
+            choiceBlack = input("")
+
+        if(choiceWhite == "pc"):
+            player1 = Player("IA", True, True)
+            player2 = self.players[self.get_index_player(choiceBlack)]
+        else:
+            player1 = self.players[self.get_index_player(choiceWhite)]
+            player2 = Player("IA", False, True)
+
+        board = chess.Board()
+        game = Game(board, player1, player2)
+        game.start()
 
     def create_player(self):
         """
