@@ -35,15 +35,26 @@ class Menu:
         x = input("/:")
 
         if(x == "play"):
+            print("\n")
             self.menu_play()
 
         if(x == "player"):
+            print("\n")
             self.menu_player()
+
+        if(x == "opt"):
+            print("\n")
+            self.options()
+
+        print("\n")
 
     def display_player_list(self):
         """
         Méthode permettant de donner la liste des joueurs.
         """
+
+        print("\n")
+
         table_data = [
             ['Joueurs']]
         for k in range(len(self.players)):
@@ -104,6 +115,8 @@ class Menu:
         if(x == "2"):
             self.start_pc_vs_pc()
 
+        print("\n")
+
         self.start()
 
     def start_human_vs_human(self):
@@ -116,12 +129,14 @@ class Menu:
         choiceWhite = ""
         choiceBlack = ""
         while self.isNotPlayer(choiceWhite):
-            print("Veuillez choisir le joueur des blancs :")
+            print("Veuillez choisir le joueur des blancs (donnez le nom) :")
             choiceWhite = input("")
 
         while self.isNotPlayer(choiceBlack) or (choiceWhite == choiceBlack):
-            print("Veuillez choisir le joueur des noirs :")
+            print("Veuillez choisir le joueur des noirs (donnez le nom) :")
             choiceBlack = input("")
+
+        print("\n")
 
         player1 = self.players[self.get_index_player(choiceWhite)]
         player2 = self.players[self.get_index_player(choiceBlack)]
@@ -151,12 +166,14 @@ class Menu:
         choiceBlack = ""
 
         while self.isNotPlayer(choiceWhite) and choiceWhite != "pc":
-            print("Veuillez choisir le joueur des blancs (pc si ce n'est pas le joueur) :")
+            print("Veuillez choisir le joueur des blancs (donnez le nom ou \"pc\" si ce n'est pas le joueur) :")
             choiceWhite = input("")
 
         while (self.isNotPlayer(choiceBlack) or choiceWhite != "pc") and (choiceBlack != "pc" or choiceWhite == choiceBlack):
-            print("Veuillez choisir le joueur des noirs :")
+            print("Veuillez choisir le joueur des noirs (donnez le nom ou \"pc\" si ce n'est pas le joueur) :")
             choiceBlack = input("")
+
+        print("\n")
 
         if(choiceWhite == "pc"):
             player1 = Player("IA", True, True)
@@ -195,7 +212,11 @@ class Menu:
                 print("Le joueur " + x[4:] + " a été ajouté !")
 
         if(x[0:3] == "del"):
-            pass
+            if(not self.isNotPlayer(x[4:])):
+                del self.players[self.get_index_player(x[4:])]
+                print("Le joueur " + x[4:] + " a été supprimé !")
+
+        print("\n")
 
         self.start()
 
