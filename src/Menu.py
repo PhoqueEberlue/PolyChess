@@ -144,7 +144,7 @@ class Menu:
         player2.set_color(False)
 
         board = chess.Board()
-        game = Game(board, player1, player2)
+        game = Game(player1, player2)
         game.start()
 
     def start_pc_vs_pc(self):
@@ -153,7 +153,7 @@ class Menu:
         :return:
         """
         board = chess.Board()
-        game = Game(board,  Player("PC MASTER RACE 1", True, True), Player("PC MASTER RACE 2", False, True))
+        game = Game(Player("PC MASTER RACE 1", True, True), Player("PC MASTER RACE 2", False, True))
         game.start()
 
     def start_human_vs_pc(self):
@@ -185,7 +185,7 @@ class Menu:
             player2 = Player("IA", False, True)
 
         board = chess.Board()
-        game = Game(board, player1, player2)
+        game = Game(player1, player2)
         game.start()
 
 ## Menu player
