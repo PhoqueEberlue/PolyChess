@@ -19,7 +19,7 @@ while not board.is_game_over():
 engine.quit()
 """
 
-timer = datetime.now()
+"""timer = datetime.now()
 print(timer)
 timer2 = time(16, 43)
 print(timer2)
@@ -28,4 +28,22 @@ timer3 = datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M")
 print(timer3)
 
 timer4 = timer.minute
-print(timer4)
+print(timer4)"""
+
+
+import chess.polyglot
+
+
+board = chess.Board()
+with chess.polyglot.open_reader("../openings/book.bin") as reader:
+    for entry in reader.find_all(board):
+        print(entry)
+        print(entry.move, entry.weight, entry.learn)
+
+
+board.push_uci("e2e4")
+print(board)
+
+with chess.polyglot.open_reader("../openings/book.bin") as reader:
+    for entry in reader.find_all(board):
+        print(entry.move, entry.weight, entry.learn)
