@@ -1,11 +1,10 @@
-import datetime
-
 import chess
 import chess.engine
 from Our_Board import Our_Board
 from typing import List
 from Player import Player
 from ai_importor import get_ai_file_name
+from Openings import Openings
 
 
 class Game:
@@ -13,7 +12,7 @@ class Game:
     Classe du jeu. Gère les pions, les joueurs et l'issue de la partie.
     """
 
-    def __init__(self, board, player1: Player, player2: Player):
+    def __init__(self, player1: Player, player2: Player):
         # Liste des pièces au cimetière
         self.graveyard: List[chess.Piece] = []
         self.our_board = Our_Board()
@@ -23,19 +22,22 @@ class Game:
         self.player2 = player2
         self.engine = chess.engine.SimpleEngine.popen_uci(f"ai/{get_ai_file_name()}")
         self.turn_count = 0
+        self.openings = Openings()
 
     def start(self):
+        """
+        Boucle de jeu
+        """
         while not self.board.is_checkmate():
 
-            # À remplacer par la fonction d'affichage de la classe CLI
             print(self.our_board.display_board())
+            if self.turn_count == 0 and not self.player1.is_pc:
+                print(f"Voici les différentes ouvertures possibles : {self.openings.get_openings(self.board)}")
+            elif self.turn_count == 1 and not self.player2.is_pc:
+                print(f"Voici les différentes défenses possibles : {self.openings.get_openings(self.board)}")
 
             if not self.isTurnBlack:
-                time1 = datetime.datetime.now()
                 move = self.player1.get_move(self.get_legal_move(self.player1.color), self.board)
-                time2 = datetime.datetime.now()
-                temps = (time2 - time1)
-                print(temps)
                 self.move_piece(move)
                 self.isTurnBlack = True
             else:
@@ -47,13 +49,13 @@ class Game:
 
             self.turn_count += 1
 
-        print(self.board)
+        print(self.our_board.display_board())
 
         self.engine.quit()
 
     def get_legal_move(self, color: bool) -> List[chess.Move]:
         """
-
+        Retourne les mouvements légaux
         :param color: False = Noir, True = Blanc
         :return: liste de move possibles
         """
