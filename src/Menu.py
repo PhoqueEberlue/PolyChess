@@ -11,12 +11,15 @@ class Menu:
 
     def __init__(self):
         self.players = []
+        self.emoji = True
+        self.iALevel = 1
 
         player1 = Player("Andrew", False, False)
         player2 = Player("Calvin", True, False)
 
         self.players.append(player1)
         self.players.append(player2)
+
 
         self.start()
 
@@ -144,7 +147,7 @@ class Menu:
         player2.set_color(False)
 
         board = chess.Board()
-        game = Game(board, player1, player2)
+        game = Game(board, player1, player2, self.emoji)
         game.start()
 
     def start_pc_vs_pc(self):
@@ -153,7 +156,7 @@ class Menu:
         :return:
         """
         board = chess.Board()
-        game = Game(board,  Player("PC MASTER RACE 1", True, True), Player("PC MASTER RACE 2", False, True))
+        game = Game(board,  Player("PC MASTER RACE 1", True, True, self.iALevel), Player("PC MASTER RACE 2", False, True, self.iALevel), self.emoji)
         game.start()
 
     def start_human_vs_pc(self):
@@ -176,16 +179,16 @@ class Menu:
         print("\n")
 
         if(choiceWhite == "pc"):
-            player1 = Player("IA", True, True)
+            player1 = Player("IA", True, True, self.iALevel)
             player2 = self.players[self.get_index_player(choiceBlack)]
             player2.set_color(False)
         else:
             player1 = self.players[self.get_index_player(choiceWhite)]
             player1.set_color(True)
-            player2 = Player("IA", False, True)
+            player2 = Player("IA", False, True, self.iALevel)
 
         board = chess.Board()
-        game = Game(board, player1, player2)
+        game = Game(board, player1, player2, self.emoji)
         game.start()
 
 ## Menu player
@@ -199,7 +202,7 @@ class Menu:
         
         table_data2 = [
             ['Que voulez-vous faire ?'],
-            ['Créer un nouveau joueur (add Nom | Supprimer un joueur (del Nom)']
+            ['Créer un nouveau joueur (add Nom) | Supprimer un joueur (del Nom)']
             ]
         table2 = AsciiTable(table_data2)
         print(table2.table)
@@ -227,5 +230,32 @@ class Menu:
         Menu d'options
         :return:
         """
+        table_data = [
+            ['Que voulez-vous faire ?'],
+            ['Activer/Désactiver affichage avec emoji (turnon/turnoff emoji)'],
+            ['Changer la difficulté de l\'IA (ia Difficulté) [1-4]']
+            ]
+        table = AsciiTable(table_data)
+        print(table.table)
+
+        x = input("/:")
+
+        
+        if(x[0:6] == "turnon"):
+            if(x[7:] == "emoji"):
+                self.emoji = True
+                print("Le mode affichage emoji a été activé !")
+        if(x[0:7] == "turnoff"):
+            if(x[8:] == "emoji"):
+                self.emoji = False
+                print("Le mode affichage emoji a été désactivé !")
+
+        if(x[0:2] == "ia"):
+            if(int(x[3:]) >= 1 and int(x[3:]) <= 4):
+                self.iALevel = int(x[3:])
+                print("La difficulté de l\'IA a été réglé sur " + x[3:] + " !")
+
+        print("\n")
+
         self.start()
 

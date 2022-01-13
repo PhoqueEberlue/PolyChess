@@ -8,7 +8,7 @@ class Player:
     Gère les joueurs
     """
 
-    def __init__(self, nom, color, is_pc):
+    def __init__(self, nom, color, is_pc, level = 1):
         self.nom = nom
         self.color: bool = color  # False = Noir, True = Blanc
         self.is_pc: bool = is_pc
@@ -19,7 +19,7 @@ class Player:
         self.temps_tot = 300
 
         if self.is_pc:
-            self.move_generator = MovesGenerator(1)
+            self.move_generator = MovesGenerator(level)
 
     def get_name(self):
         return self.nom
