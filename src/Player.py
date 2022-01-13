@@ -1,14 +1,14 @@
 import chess
 from typing import List
 from MovesGenerator import MovesGenerator
-from datetime import datetime
+
 
 class Player:
     """
     Gère les joueurs
     """
 
-    def __init__(self, nom, color, is_pc, level = 1):
+    def __init__(self, nom, color, is_pc, level=1):
         self.nom = nom
         self.color: bool = color  # False = Noir, True = Blanc
         self.is_pc: bool = is_pc
@@ -45,9 +45,9 @@ class Player:
         :return: les coordonnées de déplacement sous forme 'a1b2'
         """
         col = ""
-        if self.color :
+        if self.color:
             col = "White"
-        else :
+        else:
             col = "Black"
 
         print(f"C'est le tour {self.nom} ({col})")
@@ -113,13 +113,3 @@ class Player:
 
     def time(self):
         pass
-
-
-
-
-
-
-
-
-
-

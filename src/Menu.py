@@ -20,7 +20,6 @@ class Menu:
         self.players.append(player1)
         self.players.append(player2)
 
-
         self.start()
 
     def start(self):
@@ -31,21 +30,21 @@ class Menu:
         table_data = [
             ['Que voulez-vous faire ?'],
             ['Jouer (play) | Gérer joueur (player) | Options (opt)']
-            ]
+        ]
         table = AsciiTable(table_data)
         print(table.table)
 
         x = input("/:")
 
-        if(x == "play"):
+        if x == "play":
             print("\n")
             self.menu_play()
 
-        if(x == "player"):
+        if x == "player":
             print("\n")
             self.menu_player()
 
-        if(x == "opt"):
+        if x == "opt":
             print("\n")
             self.options()
 
@@ -62,7 +61,7 @@ class Menu:
             ['Joueurs']]
         for k in range(len(self.players)):
             name = self.players[k].get_name()
-            table_data.append([ str(k) + " : " + name])
+            table_data.append([str(k) + " : " + name])
         table = AsciiTable(table_data)
         print(table.table)
 
@@ -97,25 +96,25 @@ class Menu:
         table_data = [
             ['Quel mode de jeu voulez-vous lancer?'],
             ['H vs H : 0 | H vs IA : 1 | IA vs IA : 2']
-            ]
+        ]
         table = AsciiTable(table_data)
         print(table.table)
 
         x = input("/:")
 
-        if(x == "0"):
-            if(len(self.players) >= 2):
+        if x == "0":
+            if len(self.players) >= 2:
                 self.start_human_vs_human()
             else:
                 print("Il n'y pas assez de joueur !")
 
-        if(x == "1"):
-            if(len(self.players) > 0):
-                self.start_human_vs_pc() 
+        if x == "1":
+            if len(self.players) > 0:
+                self.start_human_vs_pc()
             else:
                 print("Il n'y pas assez de joueur !")
 
-        if(x == "2"):
+        if x == "2":
             self.start_pc_vs_pc()
 
         print("\n")
@@ -156,7 +155,8 @@ class Menu:
         :return:
         """
         board = chess.Board()
-        game = Game(board,  Player("PC MASTER RACE 1", True, True, self.iALevel), Player("PC MASTER RACE 2", False, True, self.iALevel), self.emoji)
+        game = Game(board, Player("PC MASTER RACE 1", True, True, self.iALevel),
+                    Player("PC MASTER RACE 2", False, True, self.iALevel), self.emoji)
         game.start()
 
     def start_human_vs_pc(self):
@@ -172,13 +172,14 @@ class Menu:
             print("Veuillez choisir le joueur des blancs (donnez le nom ou \"pc\" si ce n'est pas le joueur) :")
             choiceWhite = input("")
 
-        while (self.isNotPlayer(choiceBlack) or choiceWhite != "pc") and (choiceBlack != "pc" or choiceWhite == choiceBlack):
+        while (self.isNotPlayer(choiceBlack) or choiceWhite != "pc") and (
+                choiceBlack != "pc" or choiceWhite == choiceBlack):
             print("Veuillez choisir le joueur des noirs (donnez le nom ou \"pc\" si ce n'est pas le joueur) :")
             choiceBlack = input("")
 
         print("\n")
 
-        if(choiceWhite == "pc"):
+        if choiceWhite == "pc":
             player1 = Player("IA", True, True, self.iALevel)
             player2 = self.players[self.get_index_player(choiceBlack)]
             player2.set_color(False)
@@ -191,7 +192,7 @@ class Menu:
         game = Game(board, player1, player2, self.emoji)
         game.start()
 
-## Menu player
+    ## Menu player
 
     def menu_player(self):
         """
@@ -199,23 +200,23 @@ class Menu:
         :return:
         """
         self.display_player_list()
-        
+
         table_data2 = [
             ['Que voulez-vous faire ?'],
             ['Créer un nouveau joueur (add Nom) | Supprimer un joueur (del Nom)']
-            ]
+        ]
         table2 = AsciiTable(table_data2)
         print(table2.table)
 
         x = input("/:")
 
-        if(x[0:3] == "add"):
-            if(self.isNotPlayer(x[4:])):
+        if x[0:3] == "add":
+            if self.isNotPlayer(x[4:]):
                 self.players.append(Player(x[4:], None, False))
                 print("Le joueur " + x[4:] + " a été ajouté !")
 
-        if(x[0:3] == "del"):
-            if(not self.isNotPlayer(x[4:])):
+        if x[0:3] == "del":
+            if not self.isNotPlayer(x[4:]):
                 del self.players[self.get_index_player(x[4:])]
                 print("Le joueur " + x[4:] + " a été supprimé !")
 
@@ -223,7 +224,7 @@ class Menu:
 
         self.start()
 
-## Menu option
+    ## Menu option
 
     def options(self):
         """
@@ -234,28 +235,26 @@ class Menu:
             ['Que voulez-vous faire ?'],
             ['Activer/Désactiver affichage avec emoji (turnon/turnoff emoji)'],
             ['Changer la difficulté de l\'IA (ia Difficulté) [1-4]']
-            ]
+        ]
         table = AsciiTable(table_data)
         print(table.table)
 
         x = input("/:")
 
-        
-        if(x[0:6] == "turnon"):
-            if(x[7:] == "emoji"):
+        if x[0:6] == "turnon":
+            if x[7:] == "emoji":
                 self.emoji = True
                 print("Le mode affichage emoji a été activé !")
-        if(x[0:7] == "turnoff"):
-            if(x[8:] == "emoji"):
+        if x[0:7] == "turnoff":
+            if x[8:] == "emoji":
                 self.emoji = False
                 print("Le mode affichage emoji a été désactivé !")
 
-        if(x[0:2] == "ia"):
-            if(int(x[3:]) >= 1 and int(x[3:]) <= 4):
+        if x[0:2] == "ia":
+            if 1 <= int(x[3:]) <= 4:
                 self.iALevel = int(x[3:])
                 print("La difficulté de l\'IA a été réglé sur " + x[3:] + " !")
 
         print("\n")
 
         self.start()
-
