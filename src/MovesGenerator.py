@@ -11,16 +11,16 @@ class MovesGenerator:
     """
 
     def __init__(self, niveau: int):
-        self.engine = chess.engine.SimpleEngine.popen_uci(f"../ai/{get_ai_file_name()}")
+        self.engine = chess.engine.SimpleEngine.popen_uci(f"ai/{get_ai_file_name()}")
         self.niveau = niveau
 
     def get_move(self, board):
         """
         Cette fonction permet de retourner le meilleur déplacement à faire en prenant en compte le nombre de coup d'avance que l'IA aura calculé.
+        Prend en compte le niveau de l'ia dans le calcul du déplacement.
         :return: str de la forme 'a1a1'
         """
         machine = self.engine
-        print("Machine = ", machine)
         sq = chess.SQUARES
         liste = []
         for i in sq:
