@@ -12,10 +12,10 @@ class Game:
     Classe du jeu. Gère les pions, les joueurs et l'issue de la partie.
     """
 
-    def __init__(self, player1: Player, player2: Player):
+    def __init__(self, board, player1: Player, player2: Player, emojiMode = True):
         # Liste des pièces au cimetière
         self.graveyard: List[chess.Piece] = []
-        self.our_board = Our_Board()
+        self.our_board = Our_Board(emojiMode)
         self.board = self.our_board.board
         self.isTurnBlack = False
         self.player1 = player1
