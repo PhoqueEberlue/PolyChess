@@ -22,6 +22,10 @@ class Player:
             self.move_generator = MovesGenerator(1)
 
     def get_name(self):
+        """
+        Renvoie le nom du joueur
+        :return: string
+        """
         return self.nom
 
     def get_move(self, legal_moves, board) -> str:
